@@ -16,14 +16,6 @@ HEADERS = {
 
 
 def get_wikipedia_links(page_url: str):
-    """
-    Given a Wikipedia article URL, return:
-      source_title: the title of the page (e.g. "Apple Inc.")
-      links: list of (linked_title, linked_url) for Wikipedia article links in the main content
-
-    Filters out non-article namespaces like Help:, File:, Special:, Category:, etc.
-    Deduplicates by linked_url.
-    """
     resp = requests.get(page_url, headers=HEADERS, timeout=30)
     resp.raise_for_status()
 
@@ -68,7 +60,7 @@ def get_wikipedia_links(page_url: str):
 def crawl_wikipedia(
     start_url: str,
     output_csv: str = "wiki_edges.csv",
-    mode: str = "max_pages",  # "max_pages" or "infinite"
+    mode: str = "max_pages",  # max_pages or infinite
     max_pages: int = 100,
     sleep_s: float = 0.2,
     flush_every: int = 1000
@@ -119,13 +111,13 @@ def crawl_wikipedia(
                     print(f"[SKIP] Request failed for {current_url}: {e}")
                     continue
 
-                # Progress message
+                # progress message
                 if mode == "max_pages":
                     print(f"[{len(visited)}/{max_pages}] {source_title} -> {len(links)} links")
                 else:
                     print(f"[{len(visited)} visited | {len(queue)} queued] {source_title} -> {len(links)} links")
 
-                # Write edges and enqueue newly discovered pages
+                # write the edges and enqueue newly discovered pages
                 for linked_title, linked_url in links:
                     writer.writerow([source_title, linked_title, linked_url])
                     rows_written += 1
@@ -133,13 +125,13 @@ def crawl_wikipedia(
                     if linked_url not in visited:
                         queue.append(linked_url)
 
-                    # Flush occasionally so progress is saved to disk
+                    # Flush occasionally so progress is saved
                     if rows_written % flush_every == 0:
                         f.flush()
 
                 time.sleep(sleep_s)
 
-            # If we exit naturally because queue is empty:
+            # If exit naturally because queue is empty
             if not queue:
                 print("Queue is empty: no more new pages to discover from this start point.")
 
@@ -147,7 +139,7 @@ def crawl_wikipedia(
             print("\nStopped by user (Ctrl+C). Keeping what we have so far...")
 
         finally:
-            # Final flush to ensure file is written
+            # Final flush 
             f.flush()
 
     print(f"Done. Visited {len(visited)} pages. Wrote {rows_written} rows to {output_csv}")
@@ -156,7 +148,7 @@ def crawl_wikipedia(
 if __name__ == "__main__":
     start_url = "https://en.wikipedia.org/wiki/University_of_California,_Santa_Barbara"
 
-    # ======= CHOOSE MODE HERE =======
+    # CHOOSE MODE HERE 
     # 1) Stop after N pages:
     crawl_wikipedia(start_url, output_csv="wiki_edges.csv", mode="max_pages", max_pages=5000, sleep_s=0.2)
 
