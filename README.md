@@ -5,5 +5,6 @@ Crawler to get linked websites from wikipedia articles
 - source_title: the title of the page 
 - links: list of (linked_title, linked_url) for Wikipedia article links in the main content
   
-1. Filters out non-article namespaces like Help:, File:, Special:, Category:, etc.
+Filters out non-article namespaces like Help:, File:, Special:, Category:, etc.
+
 Deduplicates by linked_url.
