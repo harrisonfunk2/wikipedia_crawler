@@ -8,3 +8,11 @@ Crawler to get linked websites from wikipedia articles
 Filters out non-article namespaces like Help:, File:, Special:, Category:, etc.
 
 Deduplicates by linked_url.
+
+Modes:
+  - mode="max_pages": stop after visiting max_pages source pages
+  - mode="infinite": run until queue is empty OR user stops with Ctrl+C
+
+Important sets:
+  - visited: pages already crawled
+  - seen: pages already discovered / added to queue
