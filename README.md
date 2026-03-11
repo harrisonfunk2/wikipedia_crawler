@@ -20,8 +20,17 @@ Important sets:
 
 ## Updated wikipedia_crawler_4.py
 - Run forever:
-  - `python wikipedia_crawler_4.py`
+  - `python wiki_crawler_4.py`
 - Run for a fixed number of pages:
   - `python wikipedia_crawler_4.py --mode max_pages --max-pages 5000`
 - Change the start page:
   - `python wikipedia_crawler_4.py --start-url "https://en.wikipedia.org/wiki/Apple_Inc."`
+
+## Updated wiki_scrape_5:
+- Run with no depth limit:
+  - use `-1`
+  - `python wiki_scrape_5.py --start-url "https://en.wikipedia.org/wiki/Apple_Inc." --max-depth -1`
+- Run from 'Apple Inc.' and stop after 3 levels:
+  - `python wiki_scrape_5.py --start-url "https://en.wikipedia.org/wiki/Apple_Inc." --max-depth 3`
+- Run with both page limit and depth limit:
+  - `python wiki_scrape_5.py --start-url "https://en.wikipedia.org/wiki/Apple_Inc." --max-depth 3 --mode max_pages --max-pages 5000`
