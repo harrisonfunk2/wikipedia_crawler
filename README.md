@@ -27,6 +27,27 @@ Important sets:
   - `python wikipedia_crawler_4.py --start-url "https://en.wikipedia.org/wiki/Apple_Inc."`
 
 ## Updated wiki_scrape_5:
+
+Crawl Wikipedia using a queue and write edges directly to CSV.
+
+This version keeps everything in memory:
+  - visited: pages already crawled
+  - seen: pages already discovered / added to queue
+  - queue: pages waiting to be crawled
+
+Output CSV columns:
+  source_page, linked_title
+
+Depth behavior:
+  - depth 0 = starting page
+  - depth 1 = pages linked from starting page
+  - depth 2 = pages linked from depth-1 pages
+  - depth 3 = pages linked from depth-2 pages
+
+If max_depth is None, there is no depth limit.
+If max_depth = 3, the crawl stops after crawling levels 0, 1, 2, and 3.
+
+### How to run:
 - Run with no depth limit:
   - use `-1`
   - `python wiki_scrape_5.py --start-url "https://en.wikipedia.org/wiki/Apple_Inc." --max-depth -1`
